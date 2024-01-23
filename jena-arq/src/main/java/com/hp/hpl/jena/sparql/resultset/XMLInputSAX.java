@@ -72,6 +72,14 @@ class XMLInputSAX extends SPARQLResult {
         try {
             XMLReader xr = XMLReaderFactory.createXMLReader() ;
             xr.setFeature("http://xml.org/sax/features/namespace-prefixes", true) ;
+            
+            // CVE-2022-28890
+            // Always disable remote DTDs (silently ignore if DTDs are allowed at all)
+            xr.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false) ;
+            // and ignore external entities (silently ignore)
+            xr.setFeature("http://xml.org/sax/features/external-general-entities", false) ;
+            xr.setFeature("http://xml.org/sax/features/external-parameter-entities", false) ;
+            
             // ResultSetXMLHandler1 handler = new ResultSetXMLHandler1() ;
             ResultSetXMLHandler2 handler = new ResultSetXMLHandler2() ;
             xr.setContentHandler(handler) ;
