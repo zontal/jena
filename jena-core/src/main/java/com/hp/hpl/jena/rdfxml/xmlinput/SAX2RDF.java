@@ -182,6 +182,12 @@ implements ARPConfig {
             sax2rdf);
         rdr.setFeature(
                 "http://apache.org/xml/features/allow-java-encodings",true);
-
+        
+        // CVE-2022-28890
+        // Always disable remote DTDs (silently ignore if DTDs are allowed at all)
+        rdr.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        // and ignore external entities (silently ignore)
+        rdr.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        rdr.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
     }
 }
